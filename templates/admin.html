@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}Название страницы{% endblock %}
+{% block content %}
+<h2>Admin panel</h2>
+<a href="{{ url_for('admin.add_dish') }}">Add new dish</a>
+<ul>
+  {% for dish in dishes %}
+  <li>{{ dish.name }} — {{ dish.price }} €</li>
+  {% endfor %}
+</ul>
+<a href="{{ url_for('main.menu') }}">Back to menu</a>
+{% endblock %}
+

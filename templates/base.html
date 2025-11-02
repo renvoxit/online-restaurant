@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Online Restaurant{% endblock %}</title>
+</head>
+<body>
+<header>
+  {% if current_user.is_authenticated %}
+     Logged in as {{ current_user.username }} |
+     <a href="{{ url_for('main.menu') }}">Menu</a> |
+     <a href="{{ url_for('main.orders') }}">Order History</a> |
+     <a href="{{ url_for('auth.logout') }}">Logout</a>
+  {% else %}
+     <a href="{{ url_for('auth.login') }}">Login</a> |
+     <a href="{{ url_for('auth.register') }}">Register</a>
+  {% endif %}
+  <hr>
+</header>
+
+{% block content %}{% endblock %}
+</body>
+</html>
