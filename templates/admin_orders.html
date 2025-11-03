@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %}All Orders{% endblock %}
+{% block content %}
+<h2>All Orders</h2>
+
+<table border="1" cellpadding="8">
+  <tr>
+    <th>ID</th>
+    <th>User</th>
+    <th>Total</th>
+    <th>Status</th>
+    <th>Change</th>
+  </tr>
+  {% for order in orders %}
+  <tr>
+    <td>{{ order.id }}</td>
+    <td>{{ order.user_id }}</td>
+    <td>{{ order.total_price }} €</td>
+    <td>{{ order.status }}</td>
+    <td>
+      <form action="{{ url_for('admin.change_order_status', order_id=order.id) }}" method="post">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <select name="status">
+          <option>Pending</option>
+          <option>Preparing</option>
+          <option>Delivered</option>
+          <option>Cancelled</option>
+        </select>
+        <button type="submit">Update</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<a href="{{ url_for('admin.admin_panel') }}">Back to Admin Panel</a>
+{% endblock %}

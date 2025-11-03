@@ -1,9 +1,19 @@
 {% extends 'base.html' %}
 {% block title %}Online Restaurant{% endblock %}
 {% block content %}
-<h1>Welcome to the Online Restaurant</h1>
-<p>
-  <a href="{{ url_for('auth.login') }}">Login</a> | 
-  <a href="{{ url_for('auth.register') }}">Register</a>
-</p>
+<div class="text-center mt-5">
+  <h1>Welcome to the Online Restaurant</h1>
+  <p class="lead">Choose your favorite dishes, order online, and enjoy!</p>
+
+  {% if not current_user.is_authenticated %}
+    <p>
+      <a href="{{ url_for('auth.login') }}" class="btn btn-primary">Login</a>
+      <a href="{{ url_for('auth.register') }}" class="btn btn-secondary">Register</a>
+    </p>
+  {% else %}
+    <p>
+      <a href="{{ url_for('main.menu') }}" class="btn btn-success">Go to Menu</a>
+    </p>
+  {% endif %}
+</div>
 {% endblock %}

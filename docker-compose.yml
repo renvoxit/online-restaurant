@@ -1,29 +1,22 @@
 services:
   web:
     build: .
-    ports:
-      - "5000:5000"
+    ports: ["5000:5000"]
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/restaurant
-      - FLASK_ENV=development
-    depends_on:
-      - db
+      - FLASK_ENV=production
+      - SECRET_KEY=some_long_random_value
+    depends_on: [db]
     volumes:
       - .:/app
-
   db:
     image: postgres:15
-    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: restaurant
-    ports:
-      - "5433:5432"
+    ports: ["5433:5432"]
     volumes:
       - pgdata:/var/lib/postgresql/data
-      - .:/app
-
-
 volumes:
   pgdata:

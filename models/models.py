@@ -2,6 +2,8 @@ from config import db
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 
+# Database Models
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -31,6 +33,7 @@ class Order(db.Model):
     total_price = db.Column(db.Float, nullable=False)
     date = db.Column(db.DateTime, server_default=db.func.now())
     items = db.relationship('OrderItem', backref='order', lazy=True)
+    status = db.Column(db.String(50), default='Pending')
 
 
 class OrderItem(db.Model):

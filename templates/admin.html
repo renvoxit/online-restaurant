@@ -1,13 +1,35 @@
 {% extends 'base.html' %}
-{% block title %}Название страницы{% endblock %}
+{% block title %}Admin Panel{% endblock %}
 {% block content %}
 <h2>Admin panel</h2>
-<a href="{{ url_for('admin.add_dish') }}">Add new dish</a>
+
+<form action="{{ url_for('admin.admin_panel') }}" method="post" class="add-form">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <input type="text" name="name" placeholder="Dish name" required>
+  <input type="text" name="price" placeholder="Price" required>
+  <button type="submit">Add Dish</button>
+</form>
+
+<hr>
+
 <ul>
   {% for dish in dishes %}
-  <li>{{ dish.name }} — {{ dish.price }} €</li>
+  <li>
+    {{ dish.name }} — {{ dish.price }} €
+    <a href="{{ url_for('admin.edit_dish', dish_id=dish.id) }}">Edit</a>
+
+    <form action="{{ url_for('admin.delete_dish', dish_id=dish.id) }}" method="post" style="display:inline;">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button type="submit" onclick="return confirm('Delete {{ dish.name }}?')">Delete</button>
+    </form>
+  </li>
+  {% else %}
+  <li>No dishes yet.</li>
   {% endfor %}
 </ul>
+
+<hr>
+
+<a href="{{ url_for('admin.view_orders') }}">View Orders</a> |
 <a href="{{ url_for('main.menu') }}">Back to menu</a>
 {% endblock %}
-

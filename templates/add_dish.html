@@ -2,13 +2,15 @@
 {% block title %}Название страницы{% endblock %}
 {% block content %}
 <h2>Add dish</h2>
+
 <form method="post">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
   <input name="name" placeholder="Dish name" required><br>
   <textarea name="description" placeholder="Description"></textarea><br>
   <input name="price" placeholder="Price" required><br>
   <input name="image_url" placeholder="Image URL (optional)"><br>
   <button type="submit">Add</button>
 </form>
+
 <a href="{{ url_for('admin.admin_panel') }}">Back</a>
 {% endblock %}
-

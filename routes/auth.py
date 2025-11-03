@@ -1,50 +1,51 @@
+from forms.login_form import LoginForm
+from forms.register_form import RegisterForm
 from flask import Blueprint, render_template, redirect, url_for, flash, request
 from flask_login import login_user, logout_user, login_required
 from models.models import User
 from config import db
+from app import limiter
+
 
 auth_bp = Blueprint('auth', __name__)
 
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
-    if request.method == 'POST':
-        username = request.form['username']
-        email = request.form['email']
-        password = request.form['password']
+    form = RegisterForm()
+    if form.validate_on_submit():  # проверка + CSRF
+        username = form.username.data.strip()
+        email = form.email.data.strip().lower()
+        password = form.password.data
 
-        # Проверка на существующего пользователя
-        if User.query.filter_by(username=username).first():
-            flash('Username already exists')
+        if User.query.filter((User.username == username) | (User.email == email)).first():
+            flash('User with this username or email already exists')
             return redirect(url_for('auth.register'))
 
-        # Создаём нового пользователя
         user = User(username=username, email=email)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
-
         flash('Registration successful! Please login.')
         return redirect(url_for('auth.login'))
-
-    return render_template('register.html')
+    return render_template('register.html', form=form)
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
+@limiter.limit("5/minute")
 def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-
+    form = LoginForm()
+    if form.validate_on_submit():
+        username = form.username.data.strip()
+        password = form.password.data
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             login_user(user)
             if user.is_admin:
                 return redirect(url_for('admin.admin_panel'))
             return redirect(url_for('main.menu'))
-
         flash('Invalid username or password')
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 
 
 @auth_bp.route('/logout')

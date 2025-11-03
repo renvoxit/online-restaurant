@@ -1,22 +1,40 @@
 {% extends 'base.html' %}
 {% block title %}Order History{% endblock %}
 {% block content %}
-<h2>Your Orders</h2>
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Your Orders</h2>
 
-{% if orders %}
-  {% for order in orders %}
-    <div style="margin-bottom: 20px;">
-      <h3>Order #{{ order.id }}</h3>
-      <p><strong>Date:</strong> {{ order.date.strftime('%Y-%m-%d %H:%M') }}</p>
-      <p><strong>Total:</strong> {{ order.total_price }} €</p>
-      <ul>
-        {% for item in order.items %}
-          <li>{{ item.dish.name }} — {{ item.quantity }} pcs — {{ item.dish.price * item.quantity }} €</li>
-        {% endfor %}
-      </ul>
-    </div>
-  {% endfor %}
-{% else %}
-  <p>You have no orders yet.</p>
-{% endif %}
+  {% if orders %}
+    {% for order in orders %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title">Order #{{ order.id }}</h5>
+          <p class="card-text">
+            <strong>Date:</strong> {{ order.date.strftime('%Y-%m-%d %H:%M') }}<br>
+            <strong>Status:</strong> {{ order.status }}<br>
+            <strong>Total:</strong> {{ order.total_price }} €
+          </p>
+
+          <ul class="list-group mb-3">
+            {% for item in order.items %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                {{ item.dish.name }} — {{ item.quantity }} pcs
+                <span>{{ item.dish.price * item.quantity }} €</span>
+              </li>
+            {% endfor %}
+          </ul>
+
+          <div>
+            <a href="{{ url_for('main.repeat_order', order_id=order.id) }}" class="btn btn-sm btn-outline-primary">Repeat</a>
+            {% if order.status == 'Pending' %}
+              <a href="{{ url_for('main.cancel_order', order_id=order.id) }}" class="btn btn-sm btn-outline-danger">Cancel</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  {% else %}
+    <p class="text-center">You have no orders yet.</p>
+  {% endif %}
+</div>
 {% endblock %}

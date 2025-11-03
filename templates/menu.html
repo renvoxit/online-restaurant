@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
-{% block title %}Название страницы{% endblock %}
+{% block title %}Menu{% endblock %}
 {% block content %}
-<h2>Menu</h2>
-<ul>
-    {% for dish in dishes %}
-    <li>
-        <strong>{{ dish.name }}</strong> - {{ dish.price }}€
-        <a href="{{ url_for('main.add_to_cart', dish_id=dish.id) }}">Add to cart</a>
-    </li>
-    {% endfor %}
-</ul>
-<a href="{{ url_for('main.cart') }}">View Cart</a>
+<div class="container mt-4">
+  <h2 class="mb-3 text-center">Menu</h2>
+
+  {% if dishes %}
+    <div class="list-group">
+      {% for dish in dishes %}
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <strong>{{ dish.name }}</strong><br>
+            <span class="text-muted">{{ dish.price }} €</span>
+          </div>
+          <div>
+            <a href="{{ url_for('main.add_to_cart', dish_id=dish.id) }}" class="btn btn-sm btn-success">Add to cart</a>
+            {% if dish.image_url %}
+              <a href="{{ url_for('main.dish_detail', dish_id=dish.id) }}" class="btn btn-sm btn-outline-secondary">View</a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+      <a href="{{ url_for('main.cart') }}" class="btn btn-primary">View Cart</a>
+    </div>
+  {% else %}
+    <p class="text-center">No dishes available at the moment.</p>
+  {% endif %}
+</div>
 {% endblock %}
