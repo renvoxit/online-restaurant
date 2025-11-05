@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from models.models import Dish, Order
-from app import db, limiter
+from extensions import db, limiter
 
 admin_bp = Blueprint('admin', __name__)
 

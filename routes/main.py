@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, session, request, flash
 from flask_login import login_required, current_user
-from config import db
+from extensions import db, limiter
 from models.models import Dish, Order, OrderItem
 
 # Define the blueprint

@@ -16,8 +16,6 @@ def create_app():
     app.config.from_object(Config)
     app.config.from_pyfile('config.py', silent=True)
 
-# Initialize extensions
-
     db.init_app(app)
     migrate.init_app(app, db)
     login_manager.init_app(app)
