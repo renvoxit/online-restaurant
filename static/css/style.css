@@ -1,0 +1,134 @@
+/* === GLOBAL === */
+:root {
+  --accent: #5a67d8;
+  --accent-dark: #434190;
+  --bg: #f8f9fc;
+  --text: #1a202c;
+  --light: #ffffff;
+  --radius: 12px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+body {
+  background-color: var(--bg);
+  font-family: "Poppins", "Segoe UI", sans-serif;
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* === NAVBAR === */
+.navbar {
+  background-color: var(--accent-dark);
+  padding: 1rem 0;
+}
+
+.navbar-brand {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--light) !important;
+}
+
+.nav-link {
+  color: #ddd !important;
+  margin-left: 1rem;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: var(--light) !important;
+}
+
+/* === CONTAINER === */
+main.container {
+  flex: 1;
+  padding: 2rem 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.content-wrapper {
+  max-width: 1100px;
+  width: 100%;
+  text-align: center;
+}
+
+/* === HEADINGS === */
+h1, h2 {
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+}
+
+/* === BUTTONS === */
+.btn {
+  border-radius: var(--radius);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: var(--light);
+}
+.btn-primary:hover {
+  background-color: var(--accent-dark);
+}
+
+.btn-success {
+  background-color: #48bb78;
+  color: var(--light);
+}
+.btn-success:hover {
+  background-color: #38a169;
+}
+
+/* === CARDS === */
+.card {
+  background: var(--light);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+  height: 200px;
+  object-fit: cover;
+  width: 100%;
+}
+
+.card-body {
+  padding: 1.2rem;
+}
+
+.card-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.card-text {
+  color: #4a5568;
+  margin: 0.5rem 0 1rem 0;
+}
+
+/* === FOOTER === */
+footer {
+  background: var(--accent-dark);
+  color: #ccc;
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+}

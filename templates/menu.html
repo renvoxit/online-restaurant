@@ -1,35 +1,27 @@
 {% extends 'base.html' %}
 {% block title %}Menu{% endblock %}
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-3">
-  <h2 class="m-0">Menu</h2>
-  <a href="{{ url_for('main.cart') }}" class="btn btn-outline-light">
-    <i class="bi bi-bag"></i> View Cart
-  </a>
+<h2 class="mb-4">Menu</h2>
+
+<div class="row">
+  {% for dish in dishes %}
+  <div class="col-md-4 mb-4">
+    <div class="card h-100 shadow-sm">
+      {% if dish.image_url %}
+        <img src="{{ dish.image_url }}" class="card-img-top" alt="{{ dish.name }}">
+      {% endif %}
+      <div class="card-body">
+        <h5 class="card-title">{{ dish.name }}</h5>
+        <p class="card-text">{{ dish.description or "Delicious meal" }}</p>
+        <p><strong>{{ dish.price }} €</strong></p>
+        <a href="{{ url_for('main.add_to_cart', dish_id=dish.id) }}" class="btn btn-primary btn-sm">Add to cart</a>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
 </div>
 
-{% if dishes %}
-  <div class="row g-3">
-    {% for dish in dishes %}
-      <div class="col-12 col-sm-6 col-lg-4">
-        <div class="card h-100">
-          {% set img = dish.image_url or url_for('static', filename='images/placeholder.jpg') %}
-          <img src="{{ img }}" class="card-img-top" alt="{{ dish.name }}" onerror="this.src='{{ url_for('static', filename='images/placeholder.jpg') }}'">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ dish.name }}</h5>
-            {% if dish.description %}<p class="card-text small text-muted">{{ dish.description }}</p>{% endif %}
-            <div class="mt-auto d-flex justify-content-between align-items-center">
-              <span class="fw-semibold">{{ '%.2f'|format(dish.price) }} €</span>
-              <a href="{{ url_for('main.add_to_cart', dish_id=dish.id) }}" class="btn btn-success btn-sm">
-                <i class="bi bi-plus-lg"></i> Add to cart
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
-{% else %}
-  <p class="text-muted">No dishes available yet.</p>
-{% endif %}
+<div class="text-center mt-4">
+  <a href="{{ url_for('main.cart') }}" class="btn btn-success">Go to Cart</a>
+</div>
 {% endblock %}
