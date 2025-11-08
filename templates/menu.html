@@ -18,7 +18,7 @@
           <p class="menu-desc">{{ dish.description or 'A delicious meal prepared with care.' }}</p>
           <div class="menu-footer">
             <span class="menu-price">{{ dish.price }} €</span>
-            <a href="{{ url_for('main.add_to_cart', dish_id=dish.id) }}" class="btn add-btn">Add to Cart</a>
+            <button class="btn add-btn" data-dish-id="{{ dish.id }}">Add to Cart</button>
           </div>
         </div>
       </div>
@@ -36,4 +36,7 @@
     </div>
   {% endif %}
 </section>
+
+<script src="{{ url_for('static', filename='js/cart_notify.js') }}"></script>
+
 {% endblock %}

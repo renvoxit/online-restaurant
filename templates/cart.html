@@ -14,16 +14,19 @@
         <th>Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="cart-body">
       {% for item in cart_items %}
       <tr>
         <td>{{ item.name }}</td>
         <td>{{ item.quantity }}</td>
         <td>{{ "%.2f"|format(item.price * item.quantity) }} €</td>
         <td class="actions">
+          <td class="actions">
           <a href="{{ url_for('main.decrease_quantity', dish_id=item.id) }}" class="btn-qty">−</a>
           <a href="{{ url_for('main.add_to_cart', dish_id=item.id) }}" class="btn-qty">+</a>
           <a href="{{ url_for('main.remove_from_cart', dish_id=item.id) }}" class="btn-remove">✖</a>
+        </td>
+
         </td>
       </tr>
       {% endfor %}
@@ -32,7 +35,9 @@
 
   <div class="cart-summary">
     <p><strong>Total:</strong> 
-      {{ "%.2f"|format(cart_items|sum(attribute='price')) }} €
+      <span class="cart-total-sum">
+        {{ "%.2f"|format(cart_items|sum(attribute='price')) }} €
+      </span>
     </p>
     <a href="{{ url_for('main.checkout') }}" class="btn-checkout">Proceed to Checkout</a>
   </div>
@@ -41,4 +46,7 @@
   <p class="empty">Your cart is empty.</p>
   {% endif %}
 </section>
+
+<script src="{{ url_for('static', filename='js/cart_links.js') }}"></script>
+
 {% endblock %}
