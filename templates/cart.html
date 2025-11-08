@@ -16,17 +16,14 @@
     </thead>
     <tbody class="cart-body">
       {% for item in cart_items %}
-      <tr>
+      <tr data-id="{{ item.id }}">
         <td>{{ item.name }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ "%.2f"|format(item.price * item.quantity) }} €</td>
+        <td class="qty">{{ item.quantity }}</td>
+        <td class="price">{{ "%.2f"|format(item.price * item.quantity) }} €</td>
         <td class="actions">
-          <td class="actions">
-          <a href="{{ url_for('main.decrease_quantity', dish_id=item.id) }}" class="btn-qty">−</a>
-          <a href="{{ url_for('main.add_to_cart', dish_id=item.id) }}" class="btn-qty">+</a>
-          <a href="{{ url_for('main.remove_from_cart', dish_id=item.id) }}" class="btn-remove">✖</a>
-        </td>
-
+          <button type="button" class="btn-qty" data-action="decrease" data-id="{{ item.id }}">−</button>
+          <button type="button" class="btn-qty" data-action="increase" data-id="{{ item.id }}">+</button>
+          <button type="button" class="btn-remove" data-action="remove" data-id="{{ item.id }}">✖</button>
         </td>
       </tr>
       {% endfor %}
@@ -34,7 +31,7 @@
   </table>
 
   <div class="cart-summary">
-    <p><strong>Total:</strong> 
+    <p><strong>Total:</strong>
       <span class="cart-total-sum">
         {{ "%.2f"|format(cart_items|sum(attribute='price')) }} €
       </span>
@@ -48,5 +45,4 @@
 </section>
 
 <script src="{{ url_for('static', filename='js/cart_links.js') }}"></script>
-
 {% endblock %}

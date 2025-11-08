@@ -1,0 +1,12 @@
+{% for item in cart_items %}
+<tr data-id="{{ item.id }}">
+  <td>{{ item.name }}</td>
+  <td class="qty">{{ item.quantity }}</td>
+  <td class="price">{{ "%.2f"|format(item.price * item.quantity) }} €</td>
+  <td class="actions">
+    <button type="button" class="btn-qty" data-action="decrease" data-id="{{ item.id }}">−</button>
+    <button type="button" class="btn-qty" data-action="increase" data-id="{{ item.id }}">+</button>
+    <button type="button" class="btn-remove" data-action="remove" data-id="{{ item.id }}">✖</button>
+  </td>
+</tr>
+{% endfor %}

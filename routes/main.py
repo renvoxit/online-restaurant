@@ -1,4 +1,4 @@
-from flask import jsonify
+from flask import jsonify, render_template_string
 from flask import Blueprint, render_template, redirect, url_for, session, request, flash
 from flask_login import login_required, current_user
 from extensions import db, limiter
@@ -35,12 +35,11 @@ def cart():
 # Add to cart route
 
 
-@main_bp.route('/add_to_cart/<int:dish_id>', methods=['POST', 'GET'])
+@main_bp.route('/add_to_cart/<int:dish_id>', methods=['POST'])
 @login_required
 def add_to_cart(dish_id):
     dish = Dish.query.get_or_404(dish_id)
     cart = session.get('cart', [])
-
     for item in cart:
         if item['id'] == dish.id:
             item['quantity'] += 1
@@ -51,53 +50,42 @@ def add_to_cart(dish_id):
             'name': dish.name,
             'price': dish.price,
             'quantity': 1,
-            'image_url': dish.image_url if hasattr(dish, 'image_url') else None
+            'image_url': getattr(dish, 'image_url', None),
         })
-
     session['cart'] = cart
 
-    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-        return jsonify({"success": True, "message": f"{dish.name} added to cart"})
-
-    # Redirect based on referrer
-
-    referrer = request.referrer or ""
-    if "cart" in referrer:
-        return redirect(url_for('main.cart'))
-    else:
-        return redirect(url_for('main.menu'))
-
-
+    html = render_template('partials/cart_rows.html', cart_items=cart)
+    total = sum(i['price'] * i['quantity'] for i in cart)
+    return jsonify({'html': html, 'total': f'{total:.2f}'})
 # Remove from cart route
 
 
-@main_bp.route('/remove_from_cart/<int:dish_id>', methods=['POST', 'GET'])
+@main_bp.route('/remove_from_cart/<int:dish_id>', methods=['POST'])
 @login_required
 def remove_from_cart(dish_id):
-    cart = session.get('cart', [])
-    cart = [item for item in cart if item['id'] != dish_id]
+    cart = [i for i in session.get('cart', []) if i['id'] != dish_id]
     session['cart'] = cart
 
-    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-        return jsonify({"success": True, "cart": cart})
-    return redirect(url_for('main.cart'))
+    html = render_template('partials/cart_rows.html', cart_items=cart)
+    total = sum(i['price'] * i['quantity'] for i in cart)
+    return jsonify({'html': html, 'total': f'{total:.2f}'})
 
 
-@main_bp.route('/decrease_quantity/<int:dish_id>', methods=['POST', 'GET'])
+@main_bp.route('/decrease_quantity/<int:dish_id>', methods=['POST'])
 @login_required
 def decrease_quantity(dish_id):
     cart = session.get('cart', [])
-    for item in cart:
+    for idx, item in enumerate(cart):
         if item['id'] == dish_id:
             item['quantity'] -= 1
             if item['quantity'] <= 0:
-                cart.remove(item)
+                cart.pop(idx)
             break
     session['cart'] = cart
 
-    if request.headers.get("X-Requested-With") == "XMLHttpRequest":
-        return jsonify({"success": True, "cart": cart})
-    return redirect(url_for('main.cart'))
+    html = render_template('partials/cart_rows.html', cart_items=cart)
+    total = sum(i['price'] * i['quantity'] for i in cart)
+    return jsonify({'html': html, 'total': f'{total:.2f}'})
 
 
 @main_bp.route('/repeat_order/<int:order_id>')
