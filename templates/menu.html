@@ -1,27 +1,35 @@
 {% extends 'base.html' %}
 {% block title %}Menu{% endblock %}
 {% block content %}
-<h2 class="mb-4">Menu</h2>
-
-<div class="row">
-  {% for dish in dishes %}
-  <div class="col-md-4 mb-4">
-    <div class="card h-100 shadow-sm">
-      {% if dish.image_url %}
-        <img src="{{ dish.image_url }}" class="card-img-top" alt="{{ dish.name }}">
-      {% endif %}
-      <div class="card-body">
-        <h5 class="card-title">{{ dish.name }}</h5>
-        <p class="card-text">{{ dish.description or "Delicious meal" }}</p>
-        <p><strong>{{ dish.price }} €</strong></p>
-        <a href="{{ url_for('main.add_to_cart', dish_id=dish.id) }}" class="btn btn-primary btn-sm">Add to cart</a>
+<section class="menu">
+  <h1 class="menu-title">Our Menu</h1>
+  {% if dishes %}
+    <p class="menu-subtitle">Choose your favorite dishes and add them to your cart.</p>
+    <div class="menu-grid">
+      {% for dish in dishes %}
+      <div class="menu-card">
+        {% if dish.image_url %}
+          <img src="{{ dish.image_url }}" alt="{{ dish.name }}">
+        {% else %}
+          <div class="menu-placeholder">No image</div>
+        {% endif %}
+        <div class="menu-info">
+          <h3>{{ dish.name }}</h3>
+          <p class="menu-desc">{{ dish.description or 'A delicious meal prepared with care.' }}</p>
+          <div class="menu-footer">
+            <span class="menu-price">{{ dish.price }} €</span>
+            <a href="{{ url_for('main.add_to_cart', dish_id=dish.id) }}" class="btn add-btn">Add to Cart</a>
+          </div>
+        </div>
       </div>
+      {% endfor %}
     </div>
-  </div>
-  {% endfor %}
-</div>
-
-<div class="text-center mt-4">
-  <a href="{{ url_for('main.cart') }}" class="btn btn-success">Go to Cart</a>
-</div>
+  {% else %}
+    <div class="empty-menu">
+      <p class="empty-text">No dishes yet.</p>
+      <p class="empty-subtext">Looks like our chef is sharpening his knives...</p>
+      <a href="{{ url_for('auth.login') }}" class="btn main-btn">Login as Admin</a>
+    </div>
+  {% endif %}
+</section>
 {% endblock %}

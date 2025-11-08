@@ -1,25 +1,14 @@
 {% extends 'base.html' %}
 {% block title %}Online Restaurant{% endblock %}
 {% block content %}
-<section class="text-center mt-5">
-  <h1 class="display-5 fw-bold">Order fast. Eat better.</h1>
-  <p class="lead text-muted">Browse the menu, add dishes to your cart, and checkout in minutes.</p>
-
-  {% if not current_user.is_authenticated %}
-    <div class="mt-4">
-      <a href="{{ url_for('auth.register') }}" class="btn btn-warning btn-lg me-2">
-        <i class="bi bi-person-plus"></i> Get Started
-      </a>
-      <a href="{{ url_for('auth.login') }}" class="btn btn-outline-light btn-lg">
-        <i class="bi bi-box-arrow-in-right"></i> Login
-      </a>
+<section class="hero">
+  <div class="hero-content">
+    <h1>Order Fast. Eat Smarter.</h1>
+    <p>Explore our dark-green haven of flavors — where every click brings something new.</p>
+    <div class="hero-buttons">
+      <a href="{{ url_for('main.menu') }}" class="btn main-btn">View Menu</a>
+      <a href="{{ url_for('auth.login') }}" class="btn secondary-btn">Login</a>
     </div>
-  {% else %}
-    <div class="mt-4">
-      <a href="{{ url_for('main.menu') }}" class="btn btn-success btn-lg">
-        <i class="bi bi-menu-button-wide"></i> Go to Menu
-      </a>
-    </div>
-  {% endif %}
+  </div>
 </section>
 {% endblock %}
