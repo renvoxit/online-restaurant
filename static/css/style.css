@@ -302,7 +302,7 @@ footer {
 }
 
 .btn-remove {
-  color: #ff6b6b;
+  color: #ffe1e1;
   padding: 5px 10px;
   border-radius: 6px;
 }
@@ -393,6 +393,8 @@ footer {
   justify-content: space-between;
   align-items: center;
 }
+
+
 
 
 

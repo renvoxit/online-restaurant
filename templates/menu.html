@@ -4,7 +4,7 @@
 <section class="menu">
   <h1 class="menu-title">Our Menu</h1>
   {% if dishes %}
-    <p class="menu-subtitle">Choose your favorite dishes and add them to your cart.</p>
+    <p class="menu-subtitle">Admire the appearance of AI food that you will never be able to taste... Or add it to your cart.</p>
     <div class="menu-grid">
       {% for dish in dishes %}
       <div class="menu-card">
@@ -24,6 +24,10 @@
       </div>
       {% endfor %}
     </div>
+
+<div class="menu-actions">
+  <a href="{{ url_for('main.cart') }}" class="btn main-btn go-to-cart">Go to cart</a>
+</div>
   {% else %}
     <div class="empty-menu">
       <p class="empty-text">No dishes yet.</p>
