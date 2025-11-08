@@ -32,7 +32,7 @@ with app.app_context():
             name="Green Tea Cheesecake",
             description="Velvety matcha cheesecake on crispy almond base — smooth and vibrant.",
             price=7.50,
-            image_url="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=800&q=80"
+            image_url="/static/images/cheesecake.png"
         ),
 
         Dish(
