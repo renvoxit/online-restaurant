@@ -40,16 +40,30 @@ def add_to_cart(dish_id):
     dish = Dish.query.get_or_404(dish_id)
     cart = session.get('cart', [])
 
+# Check if dish already in cart
+
     for item in cart:
         if item['id'] == dish.id:
             item['quantity'] += 1
             break
     else:
-        cart.append({'id': dish.id, 'name': dish.name,
-                    'price': dish.price, 'quantity': 1})
+        cart.append({
+            'id': dish.id,
+            'name': dish.name,
+            'price': dish.price,
+            'quantity': 1,
+            'image_url': dish.image_url if hasattr(dish, 'image_url') else None
+        })
 
     session['cart'] = cart
-    return redirect(url_for('main.menu'))
+
+    referrer = request.referrer or ""
+    if "cart" in referrer:
+        return redirect(url_for('main.cart'))
+    else:
+        return redirect(url_for('main.menu'))
+
+# Remove from cart route
 
 
 @main_bp.route('/remove_from_cart/<int:dish_id>')
