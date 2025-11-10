@@ -717,6 +717,83 @@ footer {
   margin-top: 20px;
 }
 
+/*  === ORDER STATUS BADGES & SELECT === */
+.status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.pending {
+  background: #665a00;
+  color: #ffeb3b;
+}
+
+.status-badge.preparing {
+  background: #003b4d;
+  color: #00d08a;
+}
+
+.status-badge.delivered {
+  background: #004d3f;
+  color: #00ffb3;
+}
+
+.status-badge.cancelled {
+  background: #3b0000;
+  color: #ff6b6b;
+}
+
+.status-select {
+  background: #101a14;
+  border: 1px solid #004d3f;
+  color: #e8e8e8;
+  padding: 5px 8px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: all 0.3s;
+}
+
+.status-select:focus {
+  border-color: #00b37e;
+  box-shadow: 0 0 6px rgba(0, 208, 138, 0.3);
+  outline: none;
+}
+
+.admin-table th {
+  color: #00d08a;
+}
+
+.admin-table tr:hover {
+  background: rgba(0, 179, 126, 0.05);
+  transition: background 0.2s;
+}
+
+.bottom-notif {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(30px);
+  background: #004d3f;
+  color: #00d08a;
+  font-weight: 500;
+  padding: 12px 25px;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 208, 138, 0.3);
+  opacity: 0;
+  transition: all 0.4s ease;
+  z-index: 9999;
+}
+
+.bottom-notif.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+
 
 
 
