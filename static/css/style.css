@@ -793,6 +793,221 @@ footer {
   transform: translateX(-50%) translateY(0);
 }
 
+/* === ORDERS PAGE === */
+
+.orders-section {
+  background: #0b0f0c;
+  padding: 60px 0;
+  color: #e8e8e8;
+}
+
+.orders-title {
+  text-align: center;
+  font-size: 2rem;
+  color: #00d08a;
+  font-weight: 700;
+  margin-bottom: 40px;
+}
+
+.order-card {
+  background: linear-gradient(145deg, #0e1612, #09110d);
+  border: 1px solid #004d3f;
+  border-radius: 12px;
+  margin: 20px auto;
+  padding: 25px 30px;
+  max-width: 800px;
+  box-shadow: 0 0 25px rgba(0, 179, 126, 0.08);
+  transition: 0.3s;
+}
+
+.order-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 25px rgba(0, 208, 138, 0.2);
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.order-status {
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.order-status.pending {
+  background: #665a00;
+  color: #ffeb3b;
+}
+
+.order-status.preparing {
+  background: #003b4d;
+  color: #00d08a;
+}
+
+.order-status.delivered {
+  background: #004d3f;
+  color: #00ffb3;
+}
+
+.order-status.cancelled {
+  background: #3b0000;
+  color: #ff6b6b;
+}
+
+.order-meta {
+  font-size: 0.95rem;
+  color: #b8b8b8;
+  margin-bottom: 15px;
+}
+
+.order-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #004d3f;
+  border-bottom: 1px solid #004d3f;
+}
+
+.order-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  color: #e8e8e8;
+}
+
+.order-price {
+  color: #00d08a;
+  font-weight: 600;
+}
+
+.order-actions {
+  margin-top: 15px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-small.edit {
+  background: #00b37e;
+  color: #0b0f0c;
+}
+
+.btn-small.edit:hover {
+  background: #00d08a;
+}
+
+.btn-small.delete {
+  background: #222;
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
+}
+
+.btn-small.delete:hover {
+  background: #ff6b6b;
+  color: #0b0f0c;
+}
+
+/* ===== Edit Dish Page ===== */
+.edit-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+  background-color: #0f1713;
+  color: #fff;
+}
+
+.edit-container {
+  width: 100%;
+  max-width: 700px;
+}
+
+.edit-card {
+  background-color: #121c17;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(0, 179, 126, 0.3);
+}
+
+.edit-title {
+  text-align: center;
+  color: #00d08a;
+  margin-bottom: 30px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.9rem;
+  color: #8ea89d;
+  text-transform: uppercase;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #1b2a23;
+  color: #e9f5f1;
+  border-bottom: 2px solid #00b37e;
+  transition: all 0.2s ease;
+}
+
+.form-input:focus {
+  outline: none;
+  border-bottom: 2px solid #00d08a;
+  background-color: #15231e;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+}
+
+.btn.main-btn {
+  background-color: #00b37e;
+  color: white;
+  border: none;
+  padding: 10px 30px;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.btn.main-btn:hover {
+  background-color: #00d08a;
+}
+
+.btn.alt-btn {
+  background-color: #004d3f;
+  color: white;
+  padding: 10px 30px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.btn.alt-btn:hover {
+  background-color: #006853;
+}
+
+
+
 
 
 
