@@ -14,7 +14,6 @@ function showNotification(message) {
   }, 3000);
 }
 
-// Подключаемся к формам обновления статуса
 document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".inline-form").forEach(form => {
     form.addEventListener("submit", async e => {
