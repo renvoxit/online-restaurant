@@ -1,22 +1,50 @@
+version: "3.9"
+
 services:
   web:
     build: .
-    ports: ["5000:5000"]
+    container_name: online_restaurant_web
+    ports:
+      - "5000:5000"
+    depends_on:
+      db:
+        condition: service_healthy
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/restaurant
-      - FLASK_ENV=production
-      - SECRET_KEY=some_long_random_value
-    depends_on: [db]
+      - FLASK_APP=app.py
+      - FLASK_RUN_HOST=0.0.0.0
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/restaurant_db
+    command: >
+      sh -c "
+      echo 'Waiting for Postgres...' &&
+      while ! nc -z db 5432; do sleep 1; done;
+      echo 'Postgres started!' &&
+      flask run --host=0.0.0.0
+      "
     volumes:
       - .:/app
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
   db:
     image: postgres:15
+    container_name: online_restaurant_db
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: restaurant
-    ports: ["5433:5432"]
+      POSTGRES_DB: restaurant_db
+    ports:
+      - "5432:5432"
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 volumes:
-  pgdata:
+  postgres_data:

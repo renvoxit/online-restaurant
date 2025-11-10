@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
 {% block title %}Register{% endblock %}
 {% block content %}
-<div class="container mt-4" style="max-width: 400px;">
-  <h2 class="mb-3 text-center">Register</h2>
-  <form method="post">
-    {{ form.csrf_token }}
-    <div class="mb-3">
-      {{ form.username(class="form-control", placeholder="Username") }}
-    </div>
-    <div class="mb-3">
-      {{ form.email(class="form-control", placeholder="Email") }}
-    </div>
-    <div class="mb-3">
-      {{ form.password(class="form-control", placeholder="Password") }}
-    </div>
-    <button type="submit" class="btn btn-success w-100">Register</button>
-  </form>
-  <div class="text-center mt-3">
-    <a href="{{ url_for('auth.login') }}">Already have an account? Login</a>
+<section class="auth-section">
+  <div class="auth-container fade-in">
+    <h2 class="auth-title">Create Account</h2>
+    <form method="post" class="auth-form">
+      {{ form.csrf_token }}
+      <div class="form-group">
+        {{ form.username(size=32, class_="form-control", placeholder="Username") }}
+      </div>
+      <div class="form-group">
+        {{ form.email(size=32, class_="form-control", placeholder="Email") }}
+      </div>
+      <div class="form-group">
+        {{ form.password(size=32, class_="form-control", placeholder="Password") }}
+      </div>
+      <button type="submit" class="btn auth-btn">Register</button>
+    </form>
+    <p class="auth-text">Already have an account?
+      <a href="{{ url_for('auth.login') }}" class="auth-link">Login</a>
+    </p>
   </div>
-</div>
+</section>
 {% endblock %}

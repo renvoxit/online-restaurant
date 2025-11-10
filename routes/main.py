@@ -88,29 +88,6 @@ def decrease_quantity(dish_id):
     return jsonify({'html': html, 'total': f'{total:.2f}'})
 
 
-@main_bp.route('/repeat_order/<int:order_id>')
-@login_required
-def repeat_order(order_id):
-    order = Order.query.get_or_404(order_id)
-    cart = session.get('cart', [])
-
-    for item in order.items:
-        existing = next((c for c in cart if c['id'] == item.dish.id), None)
-        if existing:
-            existing['quantity'] += item.quantity
-        else:
-            cart.append({
-                'id': item.dish.id,
-                'name': item.dish.name,
-                'price': item.dish.price,
-                'quantity': item.quantity
-            })
-
-    session['cart'] = cart
-    flash('Order repeated and added to cart.')
-    return redirect(url_for('main.cart'))
-
-
 # Checkout route
 
 
@@ -148,9 +125,54 @@ def orders():
     user_orders = Order.query.filter_by(user_id=current_user.id).all()
     return render_template('order_history.html', orders=user_orders)
 
+
+# Cancel order
+@main_bp.route('/cancel_order/<int:order_id>')
+@login_required
+def cancel_order(order_id):
+    order = Order.query.get_or_404(order_id)
+    if order.user_id != current_user.id:
+        flash("You can only cancel your own orders.")
+        return redirect(url_for('main.orders'))
+
+    if order.status not in ["Delivered", "Cancelled"]:
+        order.status = "Cancelled"
+        db.session.commit()
+        flash(f"Order #{order.id} has been cancelled.")
+    else:
+        flash(f"Order #{order.id} cannot be cancelled.")
+
+    return redirect(url_for('main.orders'))
+
+
+# Repeat order (reworked version — safer merge into cart)
+@main_bp.route('/repeat_order/<int:order_id>')
+@login_required
+def repeat_order(order_id):
+    order = Order.query.get_or_404(order_id)
+    if order.user_id != current_user.id:
+        flash("You can only repeat your own orders.")
+        return redirect(url_for('main.orders'))
+
+    cart = session.get('cart', [])
+    for item in order.items:
+        existing = next((c for c in cart if c['id'] == item.dish.id), None)
+        if existing:
+            existing['quantity'] += item.quantity
+        else:
+            cart.append({
+                'id': item.dish.id,
+                'name': item.dish.name,
+                'price': item.dish.price,
+                'quantity': item.quantity
+            })
+
+    session['cart'] = cart
+    flash(f"Order #{order.id} items added to cart.")
+    return redirect(url_for('main.cart'))
+
+
 # Clear cart route
-
-
 @main_bp.route('/clear_cart')
 @login_required
 def clear_cart():
