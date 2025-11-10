@@ -1,53 +1,51 @@
 {% extends 'base.html' %}
 {% block title %}All Orders{% endblock %}
 {% block content %}
-<h2 class="mb-3">All Orders</h2>
+<section class="admin-section fade-in">
+  <h2 class="admin-title">All Orders</h2>
 
-{% if orders %}
-  <div class="table-responsive">
-    <table class="table align-middle">
+  {% if orders %}
+  <div class="admin-card">
+    <table class="admin-table">
       <thead>
         <tr>
           <th>ID</th>
           <th>User</th>
-          <th>Total</th>
+          <th>Total (€)</th>
           <th>Status</th>
-          <th style="width:260px;">Change</th>
+          <th>Change</th>
         </tr>
       </thead>
       <tbody>
-      {% for order in orders %}
+        {% for order in orders %}
         <tr>
           <td>#{{ order.id }}</td>
           <td>{{ order.user_id }}</td>
-          <td>{{ '%.2f'|format(order.total_price) }} €</td>
+          <td>{{ '%.2f'|format(order.total_price) }}</td>
           <td>
-            {% set badge = {
-              'Pending':'warning',
-              'Preparing':'info',
-              'Delivered':'success',
-              'Cancelled':'secondary'
-            }[order.status] if order.status in ['Pending','Preparing','Delivered','Cancelled'] else 'light' %}
-            <span class="badge text-bg-{{ badge }}">{{ order.status }}</span>
+            <span class="status-badge {{ order.status|lower }}">
+              {{ order.status }}
+            </span>
           </td>
           <td>
-            <form action="{{ url_for('admin.change_order_status', order_id=order.id) }}" method="post" class="d-flex gap-2">
+            <form action="{{ url_for('admin.change_order_status', order_id=order.id) }}" method="post" class="inline-form">
               <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-              <select name="status" class="form-select form-select-sm" required>
+              <select name="status" class="status-select" required>
                 <option {% if order.status=='Pending' %}selected{% endif %}>Pending</option>
                 <option {% if order.status=='Preparing' %}selected{% endif %}>Preparing</option>
                 <option {% if order.status=='Delivered' %}selected{% endif %}>Delivered</option>
                 <option {% if order.status=='Cancelled' %}selected{% endif %}>Cancelled</option>
               </select>
-              <button type="submit" class="btn btn-sm btn-warning">Update</button>
+              <button type="submit" class="btn-small edit">Update</button>
             </form>
           </td>
         </tr>
-      {% endfor %}
+        {% endfor %}
       </tbody>
     </table>
   </div>
-{% else %}
-  <p class="text-muted">No orders yet.</p>
-{% endif %}
+  {% else %}
+  <p class="empty-text">No orders yet. Customers must be starving.</p>
+  {% endif %}
+</section>
 {% endblock %}
