@@ -1,18 +1,18 @@
 version: "3"
 services:
-  web:
+    web:
     build: .
     ports:
       - "5000:5000"
-    volumes:
-      - .:/app
     depends_on:
       - db
-  db:
-    image: postgres:15
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: restaurant_db
-    ports:
-      - "5432:5432"
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/restaurant_db
+    command: >
+      sh -c "
+      echo 'Waiting for Postgres...' &&
+      while ! nc -z db 5432; do sleep 1; done;
+      echo 'Postgres started!' &&
+      flask run --host=0.0.0.0
+      "
+
