@@ -25,40 +25,51 @@ Uses PostgreSQL through SQLAlchemy ORM and can run both locally and in Docker.
 
 ## Technology Stack
 
-```
-| Component | Tool / Library |
-|------------|----------------|
-| **Language** | Python 3.11 |
-| **Framework** | Flask |
-| **Database** | PostgreSQL (via SQLAlchemy ORM) |
-| **Local fallback** | SQLite |
-| **Frontend** | HTML5, CSS3, JavaScript |
-| **Styling** | Bootstrap 5 + custom CSS (dark theme) |
-| **Forms** | Flask-WTF |
-| **Auth** | Flask-Login |
-| **Rate limiting** | Flask-Limiter |
-| **Containerization** | Docker, Docker Compose |
-```
+**Language:**  
+- Python 3.11
+
+**Framework:**  
+- Flask
+
+**Database:**  
+- PostgreSQL (connected through SQLAlchemy ORM)  
+- SQLite (used locally as fallback)
+
+**Frontend:**  
+- HTML5, CSS3, JavaScript (vanilla)
+
+**Styling:**  
+- Bootstrap 5  
+- Custom CSS (dark theme with green accent)
+
+**Authentication & Forms:**  
+- Flask-Login  
+- Flask-WTF
+
+**Security:**  
+- CSRF protection  
+- Session hardening  
+- Flask-Limiter (basic rate limiting)
+
+**Containerization:**  
+- Docker  
+- Docker Compose
 
 ---
 
 ## Configuration
 
-All configuration values are stored in environment variables or in `config.py`.
+Application settings are defined in environment variables or in `config.py`.
 
-```
-| Variable | Description | Example |
-|-----------|--------------|----------|
-| `SECRET_KEY` | Secret key for sessions and CSRF | `"local_dev_secret"` |
-| `DATABASE_URL` | PostgreSQL connection URI | `"postgresql://user:password@db:5432/restaurant_db"` |
-| `SQLALCHEMY_TRACK_MODIFICATIONS` | Disable modification tracking | `False` |
-| `DEBUG` | Enable debug mode for local testing | `True` |
-```
+**Main variables:**
+- `SECRET_KEY` — used for Flask session encryption and CSRF tokens  
+- `DATABASE_URL` — PostgreSQL connection URI (example: `postgresql://user:password@db:5432/restaurant_db`)  
+- `SQLALCHEMY_TRACK_MODIFICATIONS` — disables ORM modification tracking (set to `False` for performance)  
+- `DEBUG` — enables Flask debug mode (use `True` only in local development)
 
-Local SQLite fallback (default in `config.py`):
+**Default local configuration (SQLite):**
 
 `SQLALCHEMY_DATABASE_URI = "sqlite:///restaurant.db"`
-
 
 ## Project Structure
 
