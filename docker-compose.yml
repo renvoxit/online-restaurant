@@ -1,5 +1,5 @@
 version: "3.9"
-
+# Docker Compose configuration for the Flask online restaurant application
 services:
   web:
     build: .
@@ -9,7 +9,7 @@ services:
     env_file:
       - .env
     environment:
-      - DATABASE_URL=${DATABASE_URL}
-      - SECRET_KEY=${SECRET_KEY}
+      - DATABASE_URL=${DATABASE_URL} 
+      - SECRET_KEY=${SECRET_KEY} 
       - FLASK_ENV=production
     restart: always
