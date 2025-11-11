@@ -135,26 +135,31 @@ online_restaurant/
 ```
 
 ## Local Run
-1. Clone repository
-`git clone https://github.com/yourusername/online-restaurant.git
+1. Clone repository `git clone https://github.com/yourusername/online-restaurant.git
 cd online-restaurant`
 
 2. Create virtual environment
-`python -m venv venv
-venv\Scripts\activate      # Windows`
+
+```python -m venv venv
+venv\Scripts\activate       # Windows`
 or
-`source venv/bin/activate   # Linux / macOS`
+`source venv/bin/activate   # Linux / macOS
+```
 
 3. Install dependencies
+
 `pip install -r requirements.txt`
 
 4. Initialize database (if using SQLite)
+
 ```flask shell
 >>> from config import db
 >>> db.create_all()
->>> exit()```
+>>> exit()
+```
 
 5. Run server
+
 `flask run`
 
 Server runs at:
