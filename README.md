@@ -8,6 +8,8 @@ Uses PostgreSQL through SQLAlchemy ORM and can run both locally and in Docker.
 
 ## Features
 
+![Preview](./static/images/preview.png)
+
 ### User side
 - Registration and login with Flask-Login and Flask-WTF
 - Browsing menu items with images and prices

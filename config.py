@@ -2,11 +2,13 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 
 
-class Config:
-    SECRET_KEY = os.environ.get("SECRET_KEY") or "dev_secret"
-    SQLALCHEMY_DATABASE_URI = "postgresql://postgres:postgres@db:5432/restaurant_db"
+import os
 
+
+class Config:
+    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = os.getenv("SECRET_KEY", "dev_secret_key")
 
     SESSION_COOKIE_HTTPONLY = True
     REMEMBER_COOKIE_HTTPONLY = True
