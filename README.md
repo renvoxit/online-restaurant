@@ -1,135 +1,180 @@
 # Online Restaurant
 
-Online Restaurant is a web application built with Flask and SQLAlchemy, simulating a modern online restaurant:
-users can register, log in, browse the menu, place and manage their orders, while the administrator controls the menu and order statuses.
-
-***
-
-## Tech Stack
-
-- Python 3.13+
-- Flask — web framework
-- Flask-Login — authentication and session management
-- Flask-WTF / CSRFProtect — form validation and security
-- Flask-SQLAlchemy — ORM database layer
-- Flask-Limiter — request rate limiting
-- Bootstrap 5 — responsive layout and styling
-- SQLite / PostgreSQL — database backend
-
-## Project Structure
-
-```online_restaurant/
-│
-├── app.py                     # Entry point — creates Flask app, registers blueprints
-├── config.py                  # Core configuration (Config class, db initialization)
-├── requirements.txt           # Project dependencies
-│
-├── instance/
-│   └── config.py              # Local development config (SECRET_KEY, DEBUG, SQLite)
-│
-├── models/
-│   └── models.py              # Database models: User, Dish, Order, OrderItem
-│
-├── routes/
-│   ├── auth.py                # Registration, login, logout
-│   ├── main.py                # Menu, cart, checkout, order history
-│   └── admin.py               # Admin panel — manage dishes and orders
-│
-├── forms/
-│   ├── login_form.py          # Flask-WTF login form
-│   ├── register_form.py       # Flask-WTF registration form
-│   ├── menu_form.py           # (reserved for future menu features)
-│   └── order_form.py          # (reserved for future order extensions)
-│
-├── templates/
-│   ├── base.html              # Shared layout with header & flash messages
-│   ├── index.html             # Home page
-│   ├── login.html             # Login form
-│   ├── register.html          # Registration form
-│   ├── menu.html              # Menu list with “Add to cart”
-│   ├── cart.html              # Shopping cart
-│   ├── order_history.html     # User order history
-│   ├── admin.html             # Admin panel (add/delete dishes)
-│   ├── edit_dish.html         # Edit dish form
-│   └── admin_orders.html      # All orders overview + status update
-│
-└── static/
-    ├── css/                   # Stylesheets
-    ├── js/                    # Scripts
-    └── images/                # Dish images
-```
-
-## Features
-### User
-
-- Register and log in
-- View menu and add dishes to cart
-- Modify or remove items in the cart
-- Place orders
-- View order history
-- Repeat or cancel past orders
+A modular Flask application for managing an online restaurant system.  
+Implements authentication, menu management, cart operations, and an admin control panel.  
+Uses PostgreSQL through SQLAlchemy ORM and can run both locally and in Docker.
 
 ---
 
-### Administrator
+## Features
 
-- Add new dishes to the menu
-- Edit or delete existing dishes
-- View all orders
-- Change order statuses (Pending → Preparing → Delivered → Cancelled)
+### User side
+- Registration and login with Flask-Login and Flask-WTF
+- Browsing menu items with images and prices
+- Adding, removing, and updating items in the shopping cart
+- Order history with full details
+- JavaScript-based cart actions without page reloads
+
+### Admin side
+- CRUD for dishes (add, edit, delete)
+- Order management (status updates, order review)
+- Admin-only routes and views
+- Basic CSRF and rate-limit protection
+
+---
+
+## Technology Stack
+
+```
+| Component | Tool / Library |
+|------------|----------------|
+| **Language** | Python 3.11 |
+| **Framework** | Flask |
+| **Database** | PostgreSQL (via SQLAlchemy ORM) |
+| **Local fallback** | SQLite |
+| **Frontend** | HTML5, CSS3, JavaScript |
+| **Styling** | Bootstrap 5 + custom CSS (dark theme) |
+| **Forms** | Flask-WTF |
+| **Auth** | Flask-Login |
+| **Rate limiting** | Flask-Limiter |
+| **Containerization** | Docker, Docker Compose |
+```
+
+---
 
 ## Configuration
 
-```Local config (instance/config.py):
-SECRET_KEY = "local_dev_secret"
-SQLALCHEMY_DATABASE_URI = "sqlite:///restaurant.db"
-DEBUG = True
-WTF_CSRF_ENABLED = True
+All configuration values are stored in environment variables or in `config.py`.
+
+```
+| Variable | Description | Example |
+|-----------|--------------|----------|
+| `SECRET_KEY` | Secret key for sessions and CSRF | `"local_dev_secret"` |
+| `DATABASE_URL` | PostgreSQL connection URI | `"postgresql://user:password@db:5432/restaurant_db"` |
+| `SQLALCHEMY_TRACK_MODIFICATIONS` | Disable modification tracking | `False` |
+| `DEBUG` | Enable debug mode for local testing | `True` |
 ```
 
-## How to Run
+Local SQLite fallback (default in `config.py`):
 
-Create a virtual environment
+`SQLALCHEMY_DATABASE_URI = "sqlite:///restaurant.db"`
 
-```python -m venv venv
-source venv/bin/activate       # Linux / Mac
-venv\Scripts\activate          # Windows
+
+## Project Structure
+
 ```
-Install dependencies
+online_restaurant/
+├── .hintrc
+├── Dockerfile
+├── README.md
+├── app.py
+├── config.py
+├── docker-compose.yml
+├── extensions.py
+├── forms/
+│   ├── login_form.py
+│   ├── menu_form.py
+│   ├── order_form.py
+│   └── register_form.py
+├── generate_structure.py
+├── instance/
+│   ├── config.py
+│   └── restaurant.db
+├── models/
+│   └── models.py
+├── requirements.txt
+├── routes/
+│   ├── admin.py
+│   ├── auth.py
+│   └── main.py
+├── seed_menu.py
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   ├── images/
+│   │   ├── cheesecake.png
+│   │   ├── cyber_sushi_set.png
+│   │   ├── emerald_pasta.png
+│   │   ├── emerald_ramen.png
+│   │   ├── forest_soup.png
+│   │   ├── neon_tart.png
+│   │   ├── shadow_burger.png
+│   │   └── shadow_steak.png
+│   └── js/
+│       ├── animation.js
+│       ├── cart_links.js
+│       ├── cart_notify.js
+│       ├── fadeInCards.js
+│       └── notify.js
+├── structure.txt
+└── templates/
+    ├── add_dish.html
+    ├── admin.html
+    ├── admin_orders.html
+    ├── base.html
+    ├── cart.html
+    ├── edit_dish.html
+    ├── index.html
+    ├── login.html
+    ├── menu.html
+    ├── order_history.html
+    ├── partials/
+    │   └── cart_rows.html
+    └── register.html
+```
 
+## Local Run
+1. Clone repository
+`git clone https://github.com/yourusername/online-restaurant.git
+cd online-restaurant`
+
+2. Create virtual environment
+`python -m venv venv
+venv\Scripts\activate      # Windows`
+or
+`source venv/bin/activate   # Linux / macOS`
+
+3. Install dependencies
 `pip install -r requirements.txt`
 
-Run the application
+4. Initialize database (if using SQLite)
+```flask shell
+>>> from config import db
+>>> db.create_all()
+>>> exit()```
+
+5. Run server
 `flask run`
-or
-`python app.py`
 
-Open in browser:
-http://127.0.0.1:5000
+Server runs at:
 
-## Database
+`http://127.0.0.1:5000`
 
-Automatically created on first run as restaurant.db
-To use PostgreSQL, update in instance/config.py:
+## Run with Docker
 
-`SQLALCHEMY_DATABASE_URI = "postgresql://user:password@host:port/dbname"`
+1. Build and start containers
+`docker-compose up --build`
 
-## Security
+2. Access
 
-- All POST forms include CSRF tokens
-- Passwords hashed via werkzeug.security
-- Secure cookies: HttpOnly, SameSite=Lax
-- Rate limiting active: 10 POST requests / minute
+Application → `http://localhost:5000`
 
-## Deployment
+PostgreSQL → localhost:5432 (internal container network)
 
-When deploying to a production server:
+3. Stop containers
+`docker-compose down`
 
-```SESSION_COOKIE_SECURE = True
-WTF_CSRF_SSL_STRICT = True
-```
-and set environment variables:
+## Development Notes
 
-```DATABASE_URL="postgresql://user:password@host:port/dbname"
-SECRET_KEY="your_production_secret"
-```
+- Modular structure: main, auth, admin blueprints
+- Uses SQLAlchemy ORM instead of raw SQL
+- Includes CSRF, secure sessions, and basic rate limiting
+- Works with SQLite locally, PostgreSQL in Docker
+- Static assets stored under static/, templates under templates/
+
+## Possible Improvements
+
+- Password recovery system
+- Email notification for order updates
+- Admin dashboard charts
+- REST API endpoint for external integrations
