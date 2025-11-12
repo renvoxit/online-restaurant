@@ -58,4 +58,5 @@ with app.app_context():
     db.session.add_all(demo_dishes)
     db.session.commit()
     print("✅ Menu populated with demo dishes.")
-    #
+
+    # testing retrieval
