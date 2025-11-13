@@ -179,3 +179,23 @@ def clear_cart():
     session['cart'] = []
     flash('Cart cleared.')
     return redirect(url_for('main.cart'))
+
+
+@main_bp.route("/__fix_render_once__", methods=["GET"])
+def fix_render_once():
+    from extensions import db
+    from models.models import User, Dish
+    from seed_menu import seed
+
+    admin = User.query.filter_by(username="admin").first()
+    if not admin:
+        admin = User(username="admin", email="admin@example.com")
+        admin.set_password("admin")
+        db.session.add(admin)
+        db.session.commit()
+
+    dishes = Dish.query.all()
+    if not dishes:
+        seed()
+
+    return "Render FIXED: admin + menu ready."
