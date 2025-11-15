@@ -1,9 +1,8 @@
+from flask_login import login_user, logout_user, login_required, current_user
 from forms.login_form import LoginForm
 from forms.register_form import RegisterForm
 from flask import Blueprint, render_template, redirect, url_for, flash, request
-from flask_login import login_user, logout_user, login_required
 from models.models import User
-from extensions import db
 from extensions import db, limiter
 
 auth_bp = Blueprint('auth', __name__)
@@ -53,21 +52,27 @@ def logout():
     logout_user()
     return redirect(url_for('auth.login'))
 
+# Route to create admin user and seed menu
+
 
 @auth_bp.route("/create_admin_now", methods=["GET"])
 def create_admin_now():
-    from extensions import db
-    from models.models import User, Dish
+    from models.models import Dish
     from seed_menu import seed_menu
 
     admin = User.query.filter_by(username="admin").first()
     if not admin:
-        admin = User(username="admin", email="admin@example.com")
+        admin = User(
+            username="admin",
+            email="admin@example.com",
+            role="admin",
+        )
         admin.set_password("admin")
         db.session.add(admin)
-        db.session.commit()
 
     if Dish.query.count() == 0:
         seed_menu()
+
+    db.session.commit()
 
     return "ADMIN + MENU CREATED"

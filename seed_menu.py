@@ -6,7 +6,7 @@ def seed_menu():
     """Populate the menu with demo dishes if it's empty."""
 
     if Dish.query.first():
-        return  # menu already exists — do nothing
+        return
 
     demo_dishes = [
         Dish(
@@ -61,4 +61,3 @@ def seed_menu():
 
     db.session.add_all(demo_dishes)
     db.session.commit()
-    print("Menu seeded.")
