@@ -7,8 +7,9 @@ import os
 
 
 class Config:
-    # Replace with your actual database URL
-    SQLALCHEMY_DATABASE_URI = os.getenv("DATABASE_URL")
+    SQLALCHEMY_DATABASE_URI = (
+        os.getenv("DATABASE_URL") or "sqlite:///restaurant.db"
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = os.getenv("SECRET_KEY", "dev_secret_key")
 
