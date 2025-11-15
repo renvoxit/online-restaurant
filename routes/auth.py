@@ -12,7 +12,7 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
-    if form.validate_on_submit():  # проверка + CSRF
+    if form.validate_on_submit():
         username = form.username.data.strip()
         email = form.email.data.strip().lower()
         password = form.password.data
