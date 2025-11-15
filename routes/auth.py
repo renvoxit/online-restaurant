@@ -51,3 +51,10 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
+
+
+@auth_bp.route("/debug_users")
+def debug_users():
+    from models.models import User
+    users = User.query.all()
+    return "<br>".join([f"{u.id} | {u.username} | {u.email} | admin={u.is_admin}" for u in users])
