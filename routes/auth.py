@@ -58,7 +58,7 @@ def logout():
 def create_admin_now():
     from extensions import db
     from models.models import User, Dish
-    from seed_menu import seed
+    from seed_menu import seed_menu
 
     admin = User.query.filter_by(username="admin").first()
     if not admin:
@@ -68,6 +68,6 @@ def create_admin_now():
         db.session.commit()
 
     if Dish.query.count() == 0:
-        seed()
+        seed_menu()
 
     return "ADMIN + MENU CREATED"
