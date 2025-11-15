@@ -2,6 +2,12 @@ from flask import Flask
 from config import Config
 from models.models import User
 from extensions import db, login_manager, csrf, migrate, limiter
+from models.models import Dish
+from seed_menu import seed_menu
+
+if Dish.query.count() == 0:
+    seed_menu()
+
 
 login_manager.login_view = 'auth.login'
 
@@ -31,6 +37,17 @@ def create_app():
 
     with app.app_context():
         db.create_all()
+
+    from models.models import User
+    if not User.query.filter_by(username="admin").first():
+        admin = User(
+            username="admin",
+            email="admin@example.com",
+            is_admin=True
+        )
+        admin.set_password("admin")
+        db.session.add(admin)
+        db.session.commit()
 
     @app.after_request
     def set_headers(resp):

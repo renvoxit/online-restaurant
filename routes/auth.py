@@ -51,28 +51,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('auth.login'))
-
-# Route to create admin user and seed menu
-
-
-@auth_bp.route("/create_admin_now", methods=["GET"])
-def create_admin_now():
-    from models.models import User, Dish
-    from seed_menu import seed_menu
-
-    admin = User.query.filter_by(username="admin").first()
-    if not admin:
-        admin = User(
-            username="admin",
-            email="admin@example.com",
-            is_admin=True,
-
-        )
-        admin.set_password("admin")
-        db.session.add(admin)
-
-    if Dish.query.count() == 0:
-        seed_menu()
-
-    db.session.commit()
-    return "ADMIN + MENU CREATED"
