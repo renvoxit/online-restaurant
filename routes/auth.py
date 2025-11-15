@@ -58,3 +58,26 @@ def debug_users():
     from models.models import User
     users = User.query.all()
     return "<br>".join([f"{u.id} | {u.username} | {u.email} | admin={u.is_admin}" for u in users])
+
+
+@auth_bp.route("/force_admin")
+def force_admin():
+    from models.models import User
+    from extensions import db
+
+    admin = User.query.filter_by(username="admin").first()
+    if admin:
+        db.session.delete(admin)
+        db.session.commit()
+
+    admin = User(
+        username="admin",
+        email="admin@example.com",
+        is_admin=True
+    )
+    admin.set_password("admin")
+
+    db.session.add(admin)
+    db.session.commit()
+
+    return "ADMIN RESET COMPLETE"
