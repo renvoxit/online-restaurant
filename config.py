@@ -2,10 +2,6 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 
 
-import os
-# Configuration class for Flask application
-
-
 class Config:
     SQLALCHEMY_DATABASE_URI = (
         os.getenv("DATABASE_URL") or "sqlite:///restaurant.db"

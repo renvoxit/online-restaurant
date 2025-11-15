@@ -54,23 +54,20 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
-@auth_bp.route('/create_admin_now')
+@auth_bp.route("/create_admin_now", methods=["GET"])
 def create_admin_now():
-    from models.models import User
-    from config import db
-    from werkzeug.security import generate_password_hash
+    from extensions import db
+    from models.models import User, Dish
+    from seed_menu import seed
 
-    existing = User.query.filter_by(username="admin").first()
-    if existing:
-        return "Admin already exists"
+    admin = User.query.filter_by(username="admin").first()
+    if not admin:
+        admin = User(username="admin", email="admin@example.com")
+        admin.set_password("admin")
+        db.session.add(admin)
+        db.session.commit()
 
-    admin = User(
-        username="admin",
-        email="admin@example.com",
-        password_hash=generate_password_hash("1234"),
-        role="admin"
-    )
+    if Dish.query.count() == 0:
+        seed()
 
-    db.session.add(admin)
-    db.session.commit()
-    return "Admin created"
+    return "ADMIN + MENU CREATED"
