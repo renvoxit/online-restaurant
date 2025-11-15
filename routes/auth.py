@@ -65,7 +65,8 @@ def create_admin_now():
         admin = User(
             username="admin",
             email="admin@example.com",
-            role="admin",
+            is_admin=True,
+
         )
         admin.set_password("admin")
         db.session.add(admin)
