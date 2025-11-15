@@ -1,8 +1,13 @@
-from app import app
 from extensions import db
 from models.models import Dish
 
-with app.app_context():
+
+def seed_menu():
+    """Populate the menu with demo dishes if it's empty."""
+
+    if Dish.query.first():
+        return  # menu already exists — do nothing
+
     demo_dishes = [
         Dish(
             name="Emerald Pasta",
@@ -34,7 +39,6 @@ with app.app_context():
             price=7.50,
             image_url="/static/images/cheesecake.png"
         ),
-
         Dish(
             name="Shadow Steak",
             description="Charcoal-grilled ribeye glazed with black garlic butter.",
@@ -47,14 +51,14 @@ with app.app_context():
             price=15.20,
             image_url="/static/images/emerald_ramen.png"
         ),
-
         Dish(
             name="Neon Tart",
             description="Dark chocolate tart topped with glowing mint crystals.",
             price=8.90,
             image_url="/static/images/neon_tart.png"
-        ),]
+        ),
+    ]
 
     db.session.add_all(demo_dishes)
     db.session.commit()
-    print("✅ Menu populated with demo dishes.")
+    print("Menu seeded.")
