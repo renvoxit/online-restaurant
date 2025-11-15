@@ -57,7 +57,7 @@ def logout():
 
 @auth_bp.route("/create_admin_now", methods=["GET"])
 def create_admin_now():
-    from models.models import Dish
+    from models.models import User, Dish
     from seed_menu import seed_menu
 
     admin = User.query.filter_by(username="admin").first()
@@ -74,5 +74,4 @@ def create_admin_now():
         seed_menu()
 
     db.session.commit()
-
     return "ADMIN + MENU CREATED"
