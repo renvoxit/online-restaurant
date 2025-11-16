@@ -37,7 +37,6 @@ def add_dish():
         flash('Invalid price format.')
         return redirect(url_for('admin.admin_panel'))
 
-    # Если description нет — это ошибка формы, не базы
     if not description:
         flash('Description is required.')
         return redirect(url_for('admin.admin_panel'))
