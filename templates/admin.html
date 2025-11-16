@@ -5,16 +5,30 @@
   <h2 class="admin-title">Admin Panel</h2>
 
   <div class="admin-grid">
+
     <!-- Add Dish -->
     <div class="admin-card">
       <h3 class="card-subtitle">Add New Dish</h3>
+
       <form action="{{ url_for('admin.add_dish') }}" method="post" class="admin-form">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
         <label>Name</label>
-        <input type="text" name="name" placeholder="Dish name" required>
+        <input type="text" name="name" placeholder="Dish name" required class="form-control">
+
+        <label>Description</label>
+        <textarea name="description"
+                  placeholder="Dish description"
+                  required
+                  class="form-control admin-textarea"></textarea>
 
         <label>Price (€)</label>
-        <input type="text" name="price" placeholder="12.90" required>
+        <input type="text" name="price" placeholder="12.90" required class="form-control">
+
+        <label>Image URL (optional)</label>
+        <input type="text" name="image_url"
+               placeholder="https://example.com/image.png"
+               class="form-control">
 
         <button type="submit" class="btn-main">Add Dish</button>
       </form>
@@ -22,6 +36,7 @@
 
     <!-- Menu List -->
     <div class="admin-card">
+
       <div class="admin-card-header">
         <h3 class="card-subtitle">Current Menu</h3>
         <a href="{{ url_for('admin.view_orders') }}" class="btn-outline">View Orders</a>
@@ -36,26 +51,38 @@
             <th>Actions</th>
           </tr>
         </thead>
+
         <tbody>
           {% for dish in dishes %}
           <tr>
             <td>{{ dish.name }}</td>
             <td>{{ '%.2f'|format(dish.price) }}</td>
             <td>
-              <a href="{{ url_for('admin.edit_dish', dish_id=dish.id) }}" class="btn-small edit">Edit</a>
-              <form action="{{ url_for('admin.delete_dish', dish_id=dish.id) }}" method="post" class="inline-form">
+
+              <a href="{{ url_for('admin.edit_dish', dish_id=dish.id) }}"
+                 class="btn-small edit">Edit</a>
+
+              <form action="{{ url_for('admin.delete_dish', dish_id=dish.id) }}"
+                    method="post"
+                    class="inline-form">
                 <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
-                <button type="submit" class="btn-small delete" onclick="return confirm('Delete {{ dish.name }}?')">Delete</button>
+                <button type="submit"
+                        class="btn-small delete"
+                        onclick="return confirm('Delete {{ dish.name }}?')">Delete</button>
               </form>
+
             </td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
+
       {% else %}
       <p class="empty-text">No dishes yet. Time to feed the database.</p>
       {% endif %}
+
     </div>
+
   </div>
 </section>
 {% endblock %}

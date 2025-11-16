@@ -1006,6 +1006,18 @@ footer {
   background-color: #006853;
 }
 
+.admin-textarea {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    background-color: #0f271f;
+    border: 1px solid #1f4d3f;
+    color: #cfeee1;
+    resize: vertical;
+    min-height: 90px;
+}
+
+
 
 
 

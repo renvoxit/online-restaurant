@@ -27,16 +27,31 @@ def add_dish():
         flash('Access denied.')
         return redirect(url_for('main.menu'))
 
-    name = request.form['name']
+    name = request.form.get('name')
+    description = request.form.get('description')
+    image_url = request.form.get('image_url')
+
     try:
-        price = float(request.form['price'])
-    except ValueError:
+        price = float(request.form.get('price'))
+    except (TypeError, ValueError):
         flash('Invalid price format.')
         return redirect(url_for('admin.admin_panel'))
 
-    new_dish = Dish(name=name, price=price)
+    # Если description нет — это ошибка формы, не базы
+    if not description:
+        flash('Description is required.')
+        return redirect(url_for('admin.admin_panel'))
+
+    new_dish = Dish(
+        name=name,
+        description=description,
+        price=price,
+        image_url=image_url
+    )
+
     db.session.add(new_dish)
     db.session.commit()
+
     flash('Dish added successfully.')
     return redirect(url_for('admin.admin_panel'))
 
