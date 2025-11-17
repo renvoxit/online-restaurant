@@ -8,7 +8,8 @@ Uses PostgreSQL through SQLAlchemy ORM and can run both locally and in Docker.
 
 ## Features
 
-![Preview](./static/images/preview.png)
+![Preview](./static/images/features1.png)
+![Preview](./static/images/features2.png)
 
 ### User side
 - Registration and login with Flask-Login and Flask-WTF
