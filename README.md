@@ -200,3 +200,4 @@ PostgreSQL → localhost:5432 (internal container network)
 
 ## Recent Changes
 <!-- changes -->
+(no allowed updates)
