@@ -197,3 +197,6 @@ PostgreSQL → localhost:5432 (internal container network)
 - Email notification for order updates
 - Admin dashboard charts
 - REST API endpoint for external integrations
+
+## Recent Changes
+<!-- changes -->
